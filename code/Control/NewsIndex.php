@@ -95,7 +95,7 @@ class NewsIndex_Controller extends Page_Controller
 
         if ($this->IsArchive()) {
             $strPattern = SiteConfig::current_site_config()->ArchivePattern ? : '%Y, %M';
-            $items = $items->where('DATE_FORMAT(\'' . $strPattern .  '\') = \'' . Convert::raw2sql($this->request->param('ID')) . '\'');
+            $items = $items->where('DATE_FORMAT("DateTime", \'' . $strPattern .  '\') = \'' . Convert::raw2sql($this->request->param('ID')) . '\'');
         }
 
         $items = $items->Sort('DateTime DESC');
