@@ -79,6 +79,12 @@ class NewsIndex_Controller extends Page_Controller
     }
 
 
+	public function GetFilterText()
+	{
+		return Convert::raw2xml($this->request->param('ID'));
+	}
+
+
     /**
      * @param int $iOffset
      * @return PaginatedList
