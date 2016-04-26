@@ -42,6 +42,7 @@ class NewsPageExtension extends DataExtension
 				FROM ' . $strTable .  '
 				WHERE `DateTime` IS NOT NULL
 				GROUP BY Date
+				ORDER BY `DateTime` DESC
 				LIMIT ' . $iLimit);
 
             while ($row = $results->nextRecord()) {
