@@ -48,7 +48,8 @@ class NewsIndex_Controller extends Page_Controller
     private static $allowed_actions = array(
         'tag',
         'archive',
-        'rss'
+        'rss',
+        'category'
     );
 
 
@@ -58,6 +59,11 @@ class NewsIndex_Controller extends Page_Controller
     }
 
     public function archive()
+    {
+        return $this;
+    }
+
+    public function category()
     {
         return $this;
     }
@@ -78,7 +84,18 @@ class NewsIndex_Controller extends Page_Controller
         return $this->request->param('Action') == 'archive';
     }
 
+    /**
+     * @return bool
+     */
+    public function IsCategory()
+    {
+        return $this->request->param('Action') == 'category';
+    }
 
+
+    /**
+     * @return array|string
+     */
 	public function GetFilterText()
 	{
 		return Convert::raw2xml($this->request->param('ID'));
@@ -97,6 +114,10 @@ class NewsIndex_Controller extends Page_Controller
 
         if ($this->IsTag()) {
             $items = $items->filter('Tags:PartialMatch', $this->request->param('ID'));
+        }
+
+        if ($this->IsCategory()) {
+            $items = $items->where('EXISTS ( SELECT 1 FROM "NewsPost_Categories" WHERE "NewsPost_Categories"."NewsPostID" = "NewsPost"."ID" AND "NewsPost_Categories"."NewsCategoryID" = ' . ((int)$this->request->param('ID')) . ')');
         }
 
         if ($this->IsArchive()) {
@@ -161,5 +182,14 @@ class NewsIndex_Controller extends Page_Controller
         );
 
         return $feed->outputToBrowser();
+    }
+
+
+    /**
+     * @return DataList
+     */
+    public function NewsCategories()
+    {
+        return NewsCategory::get();
     }
 }

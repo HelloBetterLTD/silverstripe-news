@@ -16,4 +16,21 @@ class NewsCategory extends DataObject
     );
 
     private static $default_sort = 'SortOrder';
+
+    public function Link()
+    {
+        $page = NewsIndex::get()->first();
+        return $page ? $page->Link('category/' . $this->ID) : '';
+    }
+
+    public function IsActive()
+    {
+        if(Controller::has_curr()) {
+            $controller = Controller::curr();
+            if(is_a($controller, 'NewsIndex_Controller') && $controller->IsCategory()) {
+                return $controller->getRequest()->param('ID') == $this->ID;
+            }
+        }
+        return false;
+    }
 }
