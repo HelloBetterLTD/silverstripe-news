@@ -77,13 +77,15 @@ class NewsPost extends Page
     {
         $list = new ArrayList();
         $newsIndex = $this->Parent();
-
-        foreach (explode(',', $this->Tags) as $tag) {
-            $tag = trim($tag);
-            $list->push(new ArrayData(array(
-                'Tag'        => $tag,
-                'Link'        => $newsIndex->Link('tag/' . urlencode($tag))
-            )));
+        $tags = trim($this->Tags);
+        if($tags) {
+            foreach (explode(',', $tags) as $tag) {
+                $tag = trim($tag);
+                $list->push(new ArrayData(array(
+                    'Tag' => $tag,
+                    'Link' => $newsIndex->Link('tag/' . urlencode($tag))
+                )));
+            }
         }
 
         return $list;
