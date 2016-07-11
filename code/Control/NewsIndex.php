@@ -15,6 +15,8 @@ class NewsIndex extends Page
     );
 
 
+
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

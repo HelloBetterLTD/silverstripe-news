@@ -19,6 +19,9 @@ class NewsPost extends Page
         'Summary'        => 'HTMLText'
     );
 
+
+    private static $icon = 'silverstripe-news/images/NewsPost.png';
+
     private static $many_many = array(
         'Categories'    => 'NewsCategory'
     );

@@ -15,6 +15,8 @@ class LinkPost extends NewsPost
 		'LinkTarget'		=> 'Enum("_self,_blank")'
 	);
 
+	private static $icon = 'silverstripe-news/images/LinkPost.png';
+
 	public function getCMSFields()
 	{
 		$fields = parent::getCMSFields();
