@@ -93,6 +93,15 @@ class NewsPost extends Page
 
         return $list;
     }
+
+
+    public function ExportContent()
+    {
+        if(method_exists($this, 'customExportContent')) {
+            return $this->customExportContent();
+        }
+        return $this->Content;
+    }
 }
 
 class NewsPost_Controller extends Page_Controller

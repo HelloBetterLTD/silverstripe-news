@@ -43,6 +43,11 @@ class LinkPost extends NewsPost
 		return $this->ShareLink;
 	}
 
+	public function customExportContent()
+	{
+		return $this->ShareLink;
+	}
+
 
 }
 

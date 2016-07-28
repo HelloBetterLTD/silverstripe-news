@@ -83,8 +83,20 @@ class NewsAdmin extends ModelAdmin
             }
 
             $singleton = singleton($this->modelClass);
-            if (is_a($singleton, 'NewsPost') && ClassInfo::exists('GridFieldSortableRows')) {
-                $config->addComponent(new GridFieldSortableRows('Sort'));
+            if (is_a($singleton, 'NewsPost') && ClassInfo::exists('GridFieldOrderableRows')) {
+                $config->addComponent(new GridFieldOrderableRows('Sort'));
+
+                $exportButton = $config->getComponentByType('GridFieldExportButton');
+                if($exportButton) {
+                    $exportButton->setExportColumns(array(
+                        'Title'         => 'Title',
+                        'DateTime'      => 'DateTime',
+                        'Author'        => 'Author',
+                        'ExportContent' => 'Content'
+                    ));
+                }
+
+
             }
 
             $config->removeComponentsByType('GridFieldDeleteAction');
