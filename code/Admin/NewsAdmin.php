@@ -88,12 +88,15 @@ class NewsAdmin extends ModelAdmin
 
                 $exportButton = $config->getComponentByType('GridFieldExportButton');
                 if($exportButton) {
-                    $exportButton->setExportColumns(array(
+                    $export = array(
                         'Title'         => 'Title',
                         'DateTime'      => 'DateTime',
                         'Author'        => 'Author',
                         'ExportContent' => 'Content'
-                    ));
+                    );
+
+                    $this->extend('updateExportColumn', $export);
+                    $exportButton->setExportColumns($export);
                 }
 
 
