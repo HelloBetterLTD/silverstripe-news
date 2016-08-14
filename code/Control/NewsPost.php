@@ -13,18 +13,19 @@ class NewsPost extends Page
     private static $pages_admin = true;
 
     private static $db = array(
-        'DateTime'        => 'SS_Datetime',
-        'Tags'            => 'Varchar(500)',
-        'Author'        => 'Varchar(100)',
-        'Summary'        => 'HTMLText'
+        'DateTime'          => 'SS_Datetime',
+        'Tags'              => 'Varchar(500)',
+        'Author'            => 'Varchar(100)',
+        'Summary'           => 'HTMLText'
     );
 
-
-    private static $icon = 'silverstripe-news/images/NewsPost.png';
 
     private static $many_many = array(
-        'Categories'    => 'NewsCategory'
+        'Categories'        => 'NewsCategory',
+        'RelatedArticles'   => 'NewsPost'
     );
+
+    private static $icon = 'silverstripe-news/images/NewsPost.png';
 
     public function getCMSFields()
     {
@@ -59,7 +60,14 @@ class NewsPost extends Page
             $fields->addFieldToTab('Root.Main',
                 CheckboxSetField::create('Categories')->setSource(NewsCategory::get()->map('ID', 'Title')->toArray()),
             'Content');
+
+
+            $fields->addFieldToTab('Root.RelatedArticles', GridField::create('RelatedArticles', 'Related Articles')->setList($this->RelatedArticles())
+                ->setConfig($relatedArticlesConfig = new GridFieldConfig_RelationEditor()));
+
         }
+
+
 
         $this->extend('updateNewsPostCMSFields', $fields);
 
@@ -102,6 +110,22 @@ class NewsPost extends Page
         }
         return $this->Content;
     }
+
+    public function PrevNewsItem()
+    {
+        return NewsPost::get()->filter(array(
+            'DateTime:LessThanOrEqual'      => $this->DateTime
+        ))->exclude('ID', $this->ID)->sort('DateTime DESC')->first();
+    }
+
+    public function NextNewsItem()
+    {
+        return NewsPost::get()->filter(array(
+            'DateTime:GreaterThanOrEqual'      => $this->DateTime
+        ))->exclude('ID', $this->ID)->sort('DateTime')->first();
+    }
+
+
 }
 
 class NewsPost_Controller extends Page_Controller
