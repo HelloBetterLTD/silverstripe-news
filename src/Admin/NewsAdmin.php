@@ -24,6 +24,7 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 class NewsAdmin extends ModelAdmin
 {
 
+
     private static $url_segment = 'news';
     private static $menu_title = 'News';
 
