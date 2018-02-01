@@ -6,8 +6,14 @@
  * Time: 3:29 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Extensions;
 
-class NewsConfigs extends DataExtension
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\NumericField;
+
+class Configs extends DataExtension
 {
 
     private static $db = array(

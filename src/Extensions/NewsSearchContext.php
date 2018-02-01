@@ -6,6 +6,25 @@
  * Time: 4:41 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Extensions;
+
+
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\DateField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\Filters\ExactMatchFilter;
+use SilverStripe\ORM\Filters\GreaterThanOrEqualFilter;
+use SilverStripe\ORM\Filters\LessThanOrEqualFilter;
+use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\Search\SearchContext;
+use SilverStripers\News\Admin\NewsAdmin;
+use SilverStripers\News\Model\NewsCategory;
+use SilverStripers\News\Pages\NewsIndex;
+
 
 class NewsSearchContext extends SearchContext
 {
@@ -36,15 +55,15 @@ class NewsSearchContext extends SearchContext
 
 
         $filters = array(
-            'Title'                => new PartialMatchFilter('Title'),
-            'URLSegment'        => new PartialMatchFilter('URLSegment'),
-            'ParentID'            => new ExactMatchFilter('ParentID'),
-            'Tags'                => new PartialMatchFilter('Tags'),
-            'Summary'            => new PartialMatchFilter('Summary'),
-            'Content'            => new PartialMatchFilter('Content'),
-            'Author'            => new PartialMatchFilter('Author'),
-            'StartDate'            => new GreaterThanOrEqualFilter('DateTime'),
-            'EndDate'            => new LessThanOrEqualFilter('DateTime')
+            'Title'                 => new PartialMatchFilter('Title'),
+            'URLSegment'            => new PartialMatchFilter('URLSegment'),
+            'ParentID'              => new ExactMatchFilter('ParentID'),
+            'Tags'                  => new PartialMatchFilter('Tags'),
+            'Summary'               => new PartialMatchFilter('Summary'),
+            'Content'               => new PartialMatchFilter('Content'),
+            'Author'                => new PartialMatchFilter('Author'),
+            'StartDate'             => new GreaterThanOrEqualFilter('DateTime'),
+            'EndDate'               => new LessThanOrEqualFilter('DateTime')
         );
 
         if ($newsAdmin) {

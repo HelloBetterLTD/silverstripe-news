@@ -6,6 +6,12 @@
  * Time: 4:23 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Extensions;
+
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
+use SilverStripe\ORM\ValidationException;
 
 class NewsGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest
 {
@@ -36,7 +42,7 @@ class NewsGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemReques
         return $form;
     }
 
-    public function doUnpublish($data, $form)
+    public function doUnpublish($data, Form $form)
     {
         $controller = $this->getToplevelController();
 

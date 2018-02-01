@@ -6,6 +6,19 @@
  * Time: 2:01 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Admin;
+
+use SilverStripe\Admin\ModelAdmin;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
+use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Versioned\Versioned;
+use SilverStripers\News\Extensions\NewsSearchContext;
+use SilverStripers\News\Pages\NewsPost;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 class NewsAdmin extends ModelAdmin
 {
@@ -78,15 +91,16 @@ class NewsAdmin extends ModelAdmin
         $field = $form->Fields()->dataFieldByName($this->modelClass);
         if ($field) {
             $config = $field->getConfig();
-            if (!ClassInfo::exists('GridFieldBetterButtonsItemRequest') && $this->IsEditingNews()) {
-                $config->getComponentByType('GridFieldDetailForm')->setItemRequestClass('NewsGridFieldDetailForm_ItemRequest');
-            }
+            //if (!ClassInfo::exists('GridFieldBetterButtonsItemRequest') && $this->IsEditingNews()) {
+//                $config->getComponentByType(GridFieldDetailForm::class)
+//                    ->setItemRequestClass('NewsGridFieldDetailForm_ItemRequest');
+            //}
 
             $singleton = singleton($this->modelClass);
-            if (is_a($singleton, 'NewsPost') && ClassInfo::exists('GridFieldOrderableRows')) {
+            if (is_a($singleton, NewsPost::class)) {
                 $config->addComponent(new GridFieldOrderableRows('Sort'));
 
-                $exportButton = $config->getComponentByType('GridFieldExportButton');
+                $exportButton = $config->getComponentByType(GridFieldExportButton::class);
                 if($exportButton) {
                     $export = array(
                         'Title'         => 'Title',
@@ -102,8 +116,8 @@ class NewsAdmin extends ModelAdmin
 
             }
 
-            $config->removeComponentsByType('GridFieldDeleteAction');
-            $config->removeComponentsByType('GridFieldPaginator');
+            $config->removeComponentsByType(GridFieldDeleteAction::class);
+            $config->removeComponentsByType(GridFieldPaginator::class);
 
             $config->addComponent($pagination = new GridFieldPaginator(100));
         }
@@ -127,7 +141,6 @@ class NewsAdmin extends ModelAdmin
 
     public function IsEditingNews()
     {
-        $arrClasses = ClassInfo::subclassesFor('NewsPost');
-        return in_array($this->modelClass, $arrClasses);
+        return in_array($this->modelClass, ClassInfo::subclassesFor(NewsPost::class));
     }
 }

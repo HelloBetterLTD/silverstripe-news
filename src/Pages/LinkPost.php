@@ -6,6 +6,8 @@
  * Time: 8:44 AM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Pages;
+
 
 class LinkPost extends NewsPost
 {
@@ -16,6 +18,8 @@ class LinkPost extends NewsPost
 	);
 
 	private static $icon = 'silverstripe-news/images/LinkPost.png';
+
+	private static $table_name = 'LinkPost';
 
 	public function getCMSFields()
 	{
@@ -48,15 +52,5 @@ class LinkPost extends NewsPost
 		return $this->ShareLink;
 	}
 
-
-}
-
-class LinkPost_Controller extends NewsPost_Controller
-{
-
-	public function init(){
-		parent::init();
-		return $this->redirect($this->ShareLink);
-	}
 
 }

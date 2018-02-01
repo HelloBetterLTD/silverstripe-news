@@ -1,6 +1,6 @@
-SiteConfig:
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - NewsConfigs
-Page_Controller:
+    - SilverStripers\News\Extensions\Configs
+PageController:
   extensions:
-    - NewsPageExtension
+    - SilverStripers\News\Extensions\NewsPageExtension

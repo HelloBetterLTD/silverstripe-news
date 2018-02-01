@@ -6,6 +6,14 @@
  * Time: 2:00 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Pages;
+
+use Page;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\DatetimeField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
 
 class NewsPost extends Page
 {
@@ -27,11 +35,14 @@ class NewsPost extends Page
 
     private static $icon = 'silverstripe-news/images/NewsPost.png';
 
+
+    private static $table_name = 'NewsPost';
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
-        if (!Config::inst()->get('NewsPost', 'pages_admin')) {
+        if (!Config::inst()->get(NewsPost::class, 'pages_admin')) {
             $arrTypes = NewsPost::GetNewsTypes();
             if (count($arrTypes) > 1) {
                 $arrDropDownSource = array();
@@ -46,13 +57,13 @@ class NewsPost extends Page
         }
 
         $fields->addFieldsToTab('Root.Main',
-            array(
+            [
                 DropdownField::create('ParentID')->setSource(NewsIndex::get()->map()->toArray())->setTitle('Parent Page'),
                 DatetimeField::create('DateTime'),
                 TextField::create('Tags'),
                 TextField::create('Author'),
-                HtmlEditorField::create('Summary')->setRows(5)
-            ),
+                HTMLEditorField::create('Summary')->setRows(5)
+            ],
             'Content');
 
 
@@ -128,6 +139,4 @@ class NewsPost extends Page
 
 }
 
-class NewsPost_Controller extends Page_Controller
-{
-}
+

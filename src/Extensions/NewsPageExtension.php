@@ -6,6 +6,16 @@
  * Time: 3:26 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Extensions;
+
+
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DB;
+use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\Versioned\Versioned;
+use SilverStripers\News\Pages\NewsIndex;
+use SilverStripers\News\Pages\NewsPost;
 
 class NewsPageExtension extends DataExtension
 {
@@ -36,7 +46,7 @@ class NewsPageExtension extends DataExtension
             $strPattern = SiteConfig::current_site_config()->ArchivePattern ? : '%Y, %M';
             $iLimit = SiteConfig::current_site_config()->NumberOfArchives ? : PHP_INT_MAX;
 
-            $strTable = Versioned::current_stage() == 'Stage' ? 'NewsPost' : 'NewsPost_Live';
+            $strTable = Versioned::get_reading_mode() == 'Stage' ? 'NewsPost' : 'NewsPost_Live';
 
             $results = DB::query('SELECT DATE_FORMAT(`DateTime`, \'' . $strPattern . '\') AS Date
 				FROM ' . $strTable .  '
@@ -63,7 +73,7 @@ class NewsPageExtension extends DataExtension
             $alRet = new ArrayList();
             $arrTags = array();
 
-            $strTable = Versioned::current_stage() == 'Stage' ? 'NewsPost' : 'NewsPost_Live';
+            $strTable = Versioned::get_reading_mode() == 'Stage' ? 'NewsPost' : 'NewsPost_Live';
             $results = DB::query('SELECT `Tags` AS Tags, COUNT(1) AS Items
 				FROM ' . $strTable .  '
 				WHERE `Tags` IS NOT NULL

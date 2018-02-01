@@ -6,6 +6,12 @@
  * Time: 2:29 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Model;
+
+
+use SilverStripe\GraphQL\Controller;
+use SilverStripe\ORM\DataObject;
+use SilverStripers\News\Pages\NewsIndex;
 
 class NewsCategory extends DataObject
 {

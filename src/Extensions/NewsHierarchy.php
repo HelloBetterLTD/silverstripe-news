@@ -6,6 +6,16 @@
  * Time: 3:07 PM
  * To change this template use File | Settings | File Templates.
  */
+namespace SilverStripers\News\Extensions;
+
+
+
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\Hierarchy\Hierarchy;
+use SilverStripers\News\Pages\NewsIndex;
+use SilverStripers\News\Pages\NewsPost;
 
 class NewsHierarchy extends Hierarchy
 {
@@ -15,7 +25,7 @@ class NewsHierarchy extends Hierarchy
                                     $numChildrenMethod = "numChildren", $rootCall = true,
                                     $nodeCountThreshold = null, $nodeCountCallback = null)
     {
-        if (get_class($this->owner) == 'NewsIndex') {
+        if (get_class($this->owner) == NewsIndex::class) {
             $strURL = $this->owner->getNewsItemsEditLink();
 
 
@@ -56,8 +66,8 @@ class NewsHierarchy extends Hierarchy
         if (!$this->owner) {
             user_error('Hierarchy::doAllChildrenIncludingDeleted() called without $this->owner');
         }
-
-        $baseClass = ClassInfo::baseDataClass($this->owner->class);
+        $stageChildren = null;
+        $baseClass = DataObject::getSchema()->baseDataClass($this->owner->class);
         if ($baseClass) {
             $stageChildren = $this->owner->stageChildren(true);
             $stageChildren = $this->RemoveNewsPostsFromSiteTree($stageChildren);
