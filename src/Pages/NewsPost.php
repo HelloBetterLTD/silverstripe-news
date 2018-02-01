@@ -34,7 +34,7 @@ class NewsPost extends Page
         'RelatedArticles'   => NewsPost::class
     );
 
-    private static $icon = 'silverstripe-news/images/NewsPost.png';
+    // private static $icon = 'silverstripe-news/images/NewsPost.png';
 
 
     private static $table_name = 'NewsPost';
