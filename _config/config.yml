@@ -1,3 +1,6 @@
+---
+Name: news
+---
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - SilverStripers\News\Extensions\Configs

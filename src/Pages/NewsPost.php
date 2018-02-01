@@ -14,6 +14,7 @@ use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripers\News\Model\NewsCategory;
 
 class NewsPost extends Page
 {
@@ -21,7 +22,7 @@ class NewsPost extends Page
     private static $pages_admin = true;
 
     private static $db = array(
-        'DateTime'          => 'SS_Datetime',
+        'DateTime'          => 'Datetime',
         'Tags'              => 'Varchar(500)',
         'Author'            => 'Varchar(100)',
         'Summary'           => 'HTMLText'
@@ -29,8 +30,8 @@ class NewsPost extends Page
 
 
     private static $many_many = array(
-        'Categories'        => 'NewsCategory',
-        'RelatedArticles'   => 'NewsPost'
+        'Categories'        => NewsCategory::class,
+        'RelatedArticles'   => NewsPost::class
     );
 
     private static $icon = 'silverstripe-news/images/NewsPost.png';
