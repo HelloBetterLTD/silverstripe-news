@@ -18,10 +18,13 @@ class NewsCategory extends DataObject
 
     private static $db = array(
         'Title'            => 'Varchar(200)',
-        'SortOrder'        => 'Int'
+        'Sort'              => 'Int'
     );
 
-    private static $default_sort = 'SortOrder';
+    private static $default_sort = 'Sort';
+
+
+    private static $table_name = 'NewsCategory';
 
     public function Link()
     {
