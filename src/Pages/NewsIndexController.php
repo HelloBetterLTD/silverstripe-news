@@ -10,6 +10,13 @@
 namespace SilverStripers\News\Pages;
 
 use PageController;
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\Director;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\RSS\RSSFeed;
+use SilverStripe\Core\Convert;
+use SilverStripe\ORM\PaginatedList;
+use SilverStripe\SiteConfig\SiteConfig;
 
 class NewsIndexController extends PageController
 {
@@ -86,7 +93,10 @@ class NewsIndexController extends PageController
 		}
 
 		if ($this->IsCategory()) {
-			$items = $items->where('EXISTS ( SELECT 1 FROM "NewsPost_Categories" WHERE "NewsPost_Categories"."NewsPostID" = "NewsPost"."ID" AND "NewsPost_Categories"."NewsCategoryID" = ' . ((int)$this->request->param('ID')) . ')');
+			$items = $items->where('EXISTS ( 
+				SELECT 1 FROM "NewsPost_Categories" WHERE 
+					"NewsPost_Categories"."NewsPostID" = "NewsPost"."ID" 
+					AND "NewsPost_Categories"."NewsCategoryID" = ' . ((int)$this->request->param('ID')) . ')');
 		}
 
 		if ($this->IsArchive()) {
@@ -115,13 +125,13 @@ class NewsIndexController extends PageController
 		}
 
 		$iStart = 0;
-		$request = Controller::curr()->request;
+		$request = Controller::curr()->getRequest();
 		if ($request->getVar('start')) {
 			$iStart = $request->getVar('start');
 		}
 		$iStart += $iOffset;
 
-		return new SS_HTTPRequest("get", "/", array(
+		return new HTTPRequest("get", "/", array(
 			"start"        => $iStart,
 		));
 	}
@@ -146,7 +156,7 @@ class NewsIndexController extends PageController
 
 		$feed = new RSSFeed(
 			$list,
-			$this->AbsoluteLink(),
+			Director::absoluteURL($this->Link()),
 			$this->Title
 		);
 

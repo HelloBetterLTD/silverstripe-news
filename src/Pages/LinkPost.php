@@ -21,6 +21,9 @@ class LinkPost extends NewsPost
 
 	private static $table_name = 'LinkPost';
 
+
+	private static $description = 'Add a link within the new post';
+
 	public function getCMSFields()
 	{
 		$fields = parent::getCMSFields();

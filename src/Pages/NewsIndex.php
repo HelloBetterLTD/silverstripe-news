@@ -19,9 +19,15 @@ class NewsIndex extends Page
         'ItemsPerPage'    => 'Int',
     );
 
-
     private static $table_name = 'NewsIndex';
 
+    private static $description = 'News index, your news items will be added under this page.';
+
+    private static $allowed_children = [
+        NewsPost::class,
+        BlogPage::class,
+        LinkPost::class
+    ];
 
     public function getCMSFields()
     {

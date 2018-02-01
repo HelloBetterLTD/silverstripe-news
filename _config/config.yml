@@ -7,3 +7,6 @@ SilverStripe\SiteConfig\SiteConfig:
 PageController:
   extensions:
     - SilverStripers\News\Extensions\NewsPageExtension
+SilverStripe\CMS\Model\SiteTree:
+  extensions:
+    - SilverStripers\News\Extensions\NewsHierarchy

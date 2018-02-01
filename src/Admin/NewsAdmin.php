@@ -17,39 +17,42 @@ use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Versioned\Versioned;
 use SilverStripers\News\Extensions\NewsSearchContext;
+use SilverStripers\News\Model\NewsCategory;
 use SilverStripers\News\Pages\NewsPost;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 class NewsAdmin extends ModelAdmin
 {
 
-    private static $menu_icon = 'silverstripe-news/images/news-icon.png';
-
     private static $url_segment = 'news';
     private static $menu_title = 'News';
 
+    private static $menu_icon_class = 'font-icon-book';
+
     public $showImportForm = false;
 
-    private static $managed_models = array(
-        'NewsPost',
-        'NewsCategory'
-    );
+    private static $managed_models = [
+        NewsPost::class,
+        NewsCategory::class
+    ];
 
-    private static $exclude_classes = array();
+    private static $exclude_classes = [
+
+    ];
 
 
     public function init()
     {
         Versioned::set_reading_mode('stage');
-        Config::inst()->update('NewsPost', 'pages_admin', false);
+        Config::inst()->update(NewsPost::class, 'pages_admin', false);
         parent::init();
     }
 
     public function getSearchableClasses()
     {
         $arrRet = array();
-        $arrClasses = ClassInfo::subclassesFor('NewsPost');
-        $arrExclude = Config::inst()->get('NewsAdmin', 'exclude_classes');
+        $arrClasses = ClassInfo::subclassesFor(NewsPost::class);
+        $arrExclude = self::config()->get('exclude_classes');
         if (!empty($arrExclude)) {
             foreach ($arrClasses as $strClass) {
                 if (!in_array($strClass, $arrExclude)) {

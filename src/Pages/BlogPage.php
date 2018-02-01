@@ -14,4 +14,7 @@ class BlogPage extends NewsPost
 	
 	private static $table_name = 'BlogPage';
 
+
+	private static $description = 'Make a blog page.';
+
 }

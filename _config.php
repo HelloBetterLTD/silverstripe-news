@@ -11,6 +11,6 @@ use SilverStripe\ORM\Hierarchy\Hierarchy;
 use SilverStripers\News\Extensions\NewsHierarchy;
 
 
-SiteTree::remove_extension(Hierarchy::class);
-SiteTree::add_extension(NewsHierarchy::class);
+//SiteTree::remove_extension(Hierarchy::class);
+//SiteTree::add_extension(NewsHierarchy::class);
 

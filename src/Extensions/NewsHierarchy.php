@@ -10,15 +10,24 @@ namespace SilverStripers\News\Extensions;
 
 
 
+use SilverStripe\Core\ClassInfo;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Hierarchy\Hierarchy;
 use SilverStripers\News\Pages\NewsIndex;
 use SilverStripers\News\Pages\NewsPost;
 
-class NewsHierarchy extends Hierarchy
+class NewsHierarchy extends DataExtension
 {
+
+//	public function augmentStageChildren1(DataList &$staged, $showAll)
+//	{
+//		$subclasses = ClassInfo::subclassesFor(NewsPost::class);
+//		echo '<pre>' . print_r($subclasses, 1) . '</pre>'; die();
+//		// $staged = $staged->exclude('ClassName')
+//	}
 
     /*
     public function getChildrenAsUL($attributes = "", $titleEval = '"<li>" . $child->Title', $extraArg = null,

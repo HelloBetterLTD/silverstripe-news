@@ -9,11 +9,18 @@
 namespace SilverStripers\News\Pages;
 
 use Page;
+use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
 use SilverStripers\News\Model\NewsCategory;
 
 class NewsPost extends Page
@@ -28,7 +35,6 @@ class NewsPost extends Page
         'Summary'           => 'HTMLText'
     );
 
-
     private static $many_many = array(
         'Categories'        => NewsCategory::class,
         'RelatedArticles'   => NewsPost::class
@@ -36,6 +42,7 @@ class NewsPost extends Page
 
     private static $icon = 'silverstripe-news/images/NewsPost.png';
 
+    private static $description = 'News details on the site.';
 
     private static $table_name = 'NewsPost';
 
@@ -76,8 +83,9 @@ class NewsPost extends Page
 
             $fields->addFieldToTab('Root.RelatedArticles', GridField::create('RelatedArticles', 'Related Articles')->setList($this->RelatedArticles())
                 ->setConfig($relatedArticlesConfig = new GridFieldConfig_RelationEditor()));
-
         }
+
+        $fields->dataFieldByName('Content')->removeExtraClass('stacked');
 
 
 
@@ -88,7 +96,7 @@ class NewsPost extends Page
 
     public static function GetNewsTypes()
     {
-        return ClassInfo::subclassesFor('NewsPost');
+        return ClassInfo::subclassesFor(NewsPost::class);
     }
 
 
@@ -132,9 +140,9 @@ class NewsPost extends Page
 
     public function NextNewsItem()
     {
-        return NewsPost::get()->filter(array(
+        return NewsPost::get()->filter([
             'DateTime:GreaterThanOrEqual'      => $this->DateTime
-        ))->exclude('ID', $this->ID)->sort('DateTime')->first();
+        ])->exclude('ID', $this->ID)->sort('DateTime')->first();
     }
 
 

@@ -14,6 +14,7 @@ use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
+use SilverStripe\View\ArrayData;
 use SilverStripers\News\Pages\NewsIndex;
 use SilverStripers\News\Pages\NewsPost;
 
@@ -41,29 +42,28 @@ class NewsPageExtension extends DataExtension
     public function BlogArchives()
     {
         if ($newsIndex = $this->NewsIndex()) {
-            $alRet = new ArrayList();
+            $list = new ArrayList();
 
-            $strPattern = SiteConfig::current_site_config()->ArchivePattern ? : '%Y, %M';
-            $iLimit = SiteConfig::current_site_config()->NumberOfArchives ? : PHP_INT_MAX;
+            $pattern = SiteConfig::current_site_config()->ArchivePattern ? : '%Y, %M';
+            $limit = SiteConfig::current_site_config()->NumberOfArchives ? : PHP_INT_MAX;
 
-            $strTable = Versioned::get_reading_mode() == 'Stage' ? 'NewsPost' : 'NewsPost_Live';
-
-            $results = DB::query('SELECT DATE_FORMAT(`DateTime`, \'' . $strPattern . '\') AS Date
-				FROM ' . $strTable .  '
+            $table = Versioned::get_reading_mode() == 'Stage.Stage' ? 'NewsPost' : 'NewsPost_Live';
+            $results = DB::query('SELECT DATE_FORMAT(`DateTime`, \'' . $pattern . '\') AS Date
+				FROM ' . $table .  '
 				WHERE `DateTime` IS NOT NULL
 				GROUP BY Date
-				ORDER BY `DateTime` DESC
-				LIMIT ' . $iLimit);
+				ORDER BY `Date` DESC
+				LIMIT ' . $limit);
 
-            while ($row = $results->nextRecord()) {
-                $alRet->push(new ArrayData(array(
-                    'Link'        => $newsIndex->Link('archive/' . urlencode($row['Date'])),
-                    'Archive'    => $row['Date'],
-                    'List'        => NewsPost::get()->where('DATE_FORMAT(`DateTime`, \'' . $strPattern . '\') = \'' . $row['Date'] . '\'')
+            while($row = $results->next()) {
+                $list->push(new ArrayData(array(
+                    'Link'          => $newsIndex->Link('archive/' . urlencode($row['Date'])),
+                    'Archive'       => $row['Date'],
+                    'List'          => NewsPost::get()->where('DATE_FORMAT(`DateTime`, \'' . $pattern . '\') = \'' . $row['Date'] . '\'')
                 )));
             }
 
-            return $alRet;
+            return $list;
         }
     }
 
@@ -73,13 +73,13 @@ class NewsPageExtension extends DataExtension
             $alRet = new ArrayList();
             $arrTags = array();
 
-            $strTable = Versioned::get_reading_mode() == 'Stage' ? 'NewsPost' : 'NewsPost_Live';
+            $strTable = Versioned::get_reading_mode() == 'Stage.Stage' ? 'NewsPost' : 'NewsPost_Live';
             $results = DB::query('SELECT `Tags` AS Tags, COUNT(1) AS Items
 				FROM ' . $strTable .  '
 				WHERE `Tags` IS NOT NULL
 				GROUP BY Tags');
 
-            while ($row = $results->nextRecord()) {
+            while ($row = $results->next()) {
                 $arrCurrentItems = explode(',', $row['Tags']);
                 foreach ($arrCurrentItems as $strItem) {
                     $strItem = trim($strItem);
