@@ -1,8 +1,8 @@
 {
     "name": "silverstripers/silverstripe-news",
     "description": "A simple news module for SilverStripe",
-    "type": "silverstripe-module",
-    "keywords": ["silverstripe", "news"],
+    "type": "silverstripe-vendormodule",
+    "keywords": ["silverstripe", "cms", "news"],
     "license": "BSD-3-Clause",
     "authors": [
     {
@@ -10,7 +10,8 @@
         "email": "nivanka@silverstripers.com"
     }],
     "require": {
-        "silverstripe/framework": "~3.1"
+        "silverstripe/framework": "^4.0.0",
+        "silverstripe/cms": "^4.0.0"
     }
     
 }
