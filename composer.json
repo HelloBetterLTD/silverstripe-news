@@ -12,7 +12,6 @@
     "require": {
         "silverstripe/framework": "^4.0.0",
         "silverstripe/cms": "^4.0.0",
-        "unclecheese/betterbuttons" : "dev-master",
         "symbiote/silverstripe-gridfieldextensions" : "3.1.0"
     }
     
