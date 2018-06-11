@@ -13,7 +13,7 @@ class NewsHierarchy extends Hierarchy
     public function getChildrenAsUL($attributes = "", $titleEval = '"<li>" . $child->Title', $extraArg = null,
                                     $limitToMarked = false, $childrenMethod = "AllChildrenIncludingDeleted",
                                     $numChildrenMethod = "numChildren", $rootCall = true,
-                                    $nodeCountThreshold = null, $nodeCountCallback = null)
+                                    $nodeCountThreshold = null, $nodeCountCallback = null, array $filteredIds = array())
     {
         if (get_class($this->owner) == 'NewsIndex') {
             $strURL = $this->owner->getNewsItemsEditLink();
