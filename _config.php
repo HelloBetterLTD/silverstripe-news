@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
+if (!class_exists('SS_Object')) class_alias('Object', 'SS_Object');
 
 SiteTree::remove_extension('Hierarchy');
-Object::add_extension('SiteTree', 'NewsHierarchy');
+SS_Object::add_extension('SiteTree', 'NewsHierarchy');
